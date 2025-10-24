@@ -1,5 +1,6 @@
 from bpe import BPE
 from token_embeddings import TokenEmbeddings
+from positional_embedings import PositionalEmbeddings
 import torch
 
 
@@ -21,10 +22,17 @@ bpe2 = BPE.load("data/bpe.dill")
 print(bpe2.tokens)
 
 
-x = torch.tensor([[113, 456, 76, 345], [345, 678, 454, 546]])
-model = TokenEmbeddings(vocab_size=1000, emb_size=64)    
+x = torch.tensor([[1, 5, 7, 17], [17, 5, 1, 3]])
+model = TokenEmbeddings(vocab_size=20, emb_size=10)    
     
 print("\nВходной тензор:")
 print(x)
 
-model.forward(x)
+result = model.forward(x)
+
+print("\nРезультат:")
+print(result)
+
+
+pos_emb = PositionalEmbeddings(max_seq_len=100, emb_size=64)
+result = pos_emb(10)  # shape: (10, 64) - первые 10 строк
