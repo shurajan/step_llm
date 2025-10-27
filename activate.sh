@@ -33,3 +33,5 @@ echo "Pip path:    $PIP_BIN"
 echo "Python version: $($PYTHON_BIN --version 2>&1)"
 echo
 echo "You are now inside the environment. To exit, run: deactivate"
+which python
+which pip
