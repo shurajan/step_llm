@@ -1,0 +1,14 @@
+services:
+  py36:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: py36-legacy:latest
+    container_name: py36-dev
+    volumes:
+      - .:/app
+    working_dir: /app
+    ports:
+      - "2222:22"
+    environment:
+      - PYTHONUNBUFFERED=1
