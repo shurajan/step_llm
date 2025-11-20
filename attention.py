@@ -33,3 +33,29 @@ class HeadAttention(nn.Module):
         attention_soft = F.softmax(attention_masked, dim=-1)
 
         return attention_soft @ V
+
+
+class MultiHeadAttention(nn.Module):
+    def __init__(
+        self,
+        num_heads: int,
+        emb_size: int,
+        head_size: int,
+        max_seq_len: int,
+        dropout: float = 0.1,
+    ):
+        super().__init__()
+        self.num_heads: int = num_heads
+
+        self.heads = nn.ModuleList(
+            [HeadAttention(emb_size, head_size, max_seq_len) for _ in range(num_heads)]
+        )
+
+        self.out = nn.Linear(head_size * num_heads, emb_size)
+
+        self.dropout = nn.Dropout(dropout)
+
+    def forward(self, x: torch.Tensor):
+        out = torch.cat([head.forward(x) for head in self.heads], dim=2)
+
+        return self.dropout(self.out(out))
